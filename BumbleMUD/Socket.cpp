@@ -69,7 +69,7 @@ bool Socket::Send(const Address& dest, const void* data, int size) {
 	addr.sin_addr.s_addr = htonl(dest.GetAddress());
 	addr.sin_port = htons(dest.GetPort());
 	int sent_bytes = sendto(handle,
-		(const char*)data,
+		static_cast<const char*>(data),
 		size,
 		0,
 		(sockaddr*)&addr,
@@ -92,7 +92,7 @@ int Socket::Receive(Address& sender, void* data, int size) {
 	int addr_size = sizeof(sockaddr_in);
 
 	int read_bytes = recvfrom(handle,
-		(char*)data,
+		static_cast<char*>(data),
 		max_packet_size,
 		0,
 		(sockaddr*)&addr,

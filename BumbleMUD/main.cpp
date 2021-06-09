@@ -48,13 +48,11 @@ int main() {
 
 	sock.Send(addr, msg, sizeof(msg));
 
-	int bytes;
-	while (true) {
+	int bytes = -1;
+	while (bytes < 0) {
 		Address sender;
 		bytes = sock.Receive(sender, buf, sizeof(buf));
-		if (bytes > 0) {
-			std::cout << "[DATA] " << buf << std::endl;
-		}
+		std::cout << "[DATA] " << buf << std::endl;
 	}
 
 	return 0;
