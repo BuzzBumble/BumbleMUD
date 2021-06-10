@@ -6,7 +6,7 @@ class Character {
 public:
 	Character() = default;
 	Character(std::string name, int maxHealth);
-	bool Init();
+	bool init();
 
 	int getID();
 	std::string getName();
@@ -19,9 +19,9 @@ public:
 
 private:
 	static unsigned int IDCounter;
-	unsigned int id;
+	unsigned int id = 0;
 	std::pair<int, int> coords;
 	std::string name;
 	int maxHealth;
 	int currentHealth;
-}
+};

@@ -1,4 +1,5 @@
 #pragma once
+#include "Character.h"
 
-class Player : Character {
+class Player : public Character {
 };

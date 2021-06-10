@@ -1,6 +1,6 @@
 #include "Character.h"
 
-unsigned int Character::IDCounter = 0;
+unsigned int Character::IDCounter = 1;
 
 Character::Character(std::string name, int maxHealth)
 	: name(name)
@@ -10,7 +10,7 @@ Character::Character(std::string name, int maxHealth)
 
 bool Character::Init() {
 	// Add character to the server
-	id = IDCounter++;
+	id = Character::IDCounter++;
 	// If character was not added successfully
 	return false;
 	// Else

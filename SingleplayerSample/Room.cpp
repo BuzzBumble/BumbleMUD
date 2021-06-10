@@ -1,8 +1,6 @@
 #include "Room.h"
-#include "Enemy.h"
-#include "Player.h"
 
-int Room::IDCounter = 0;
+unsigned int Room::IDCounter = 1;
 
 bool Room::Init() {
 	// Step 1: Add room
@@ -17,3 +15,18 @@ bool Room::Init() {
 unsigned int Room::getID() {
 	return id;
 }
+
+std::vector<Character*> Room::getCharacters() {
+	return characters;
+}
+
+/*
+std::vector<Enemy*> Room::getEnemies() {
+	return enemies;
+}
+
+std::vector<Player*> Room::getPlayers() {
+	return players;
+}
+*/
+

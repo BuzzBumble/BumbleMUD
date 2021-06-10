@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
-#include <string>
 
-class Enemy : Character {
+class Enemy : public Character {
+public:
+private:
 };
