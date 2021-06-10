@@ -16,24 +16,28 @@
 #define _WIN32_WINNT 0x0A00
 #endif
 
-class Address;
 
-class Socket {
-public:
-	Socket() = default;
+namespace net {
+	class Address;
+	class Socket {
+	public:
 
-	~Socket();
+		static constexpr int MAX_PACKET_SIZE = 256;
+		Socket() = default;
 
-	bool Open(unsigned short port);
+		~Socket();
 
-	void Close();
+		bool Open(unsigned short port);
 
-	bool IsOpen() const;
+		void Close();
 
-	bool Send(const Address& dest, const void* data, int size);
+		bool IsOpen() const;
 
-	int Receive(Address& sender, void* data, int size);
+		bool Send(const Address& dest, const void* data, int size);
 
-private:
-	int handle = -1;
-};
+		int Receive(Address& sender, void* data, int size);
+
+	private:
+		int handle = -1;
+	};
+}

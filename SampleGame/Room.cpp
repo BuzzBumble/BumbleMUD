@@ -2,7 +2,7 @@
 
 unsigned int Room::IDCounter = 1;
 
-bool Room::Init() {
+bool Room::init() {
 	// Step 1: Add room
 
 	// If no issues adding this room
@@ -16,8 +16,20 @@ unsigned int Room::getID() {
 	return id;
 }
 
-std::vector<Character*> Room::getCharacters() {
-	return characters;
+std::vector<const Player*> Room::getPlayers() {
+	return players;
+}
+
+std::vector<std::unique_ptr<Enemy>>& Room::getEnemies() {
+	return enemies;
+}
+
+void Room::addEnemy(std::unique_ptr<Enemy> enemy) {
+	enemies.push_back(std::move(enemy));
+}
+
+void Room::addPlayer(const std::unique_ptr<Player>& player) {
+	players.push_back(player.get());
 }
 
 /*

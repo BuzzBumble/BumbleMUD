@@ -26,35 +26,37 @@ void ShutdownSockets() {
 	WSACleanup();
 #endif
 }
+/*
+namespace net {
+	int main() {
+		if (!InitializeSockets()) {
+			std::cout << "Could not initialize Winsock" << std::endl;
+			return -1;
+		}
+		unsigned short port = 3030;
 
-int main() {
-	if (!InitializeSockets()) {
-		std::cout << "Could not initialize Winsock" << std::endl;
-		return -1;
+		Socket sock;
+		Address addr(127, 0, 0, 1, port);
+		unsigned char msg[] = "I'm gay";
+		unsigned char buf[256];
+
+		if (!sock.Open(port)) {
+			// Socket failed to open
+			return -1;
+		}
+
+		std::cout << "Socket opened" << std::endl;
+
+		sock.Send(addr, msg, sizeof(msg));
+
+		int bytes = -1;
+		while (bytes < 0) {
+			Address sender;
+			bytes = sock.Receive(sender, buf, sizeof(buf));
+			std::cout << "[DATA] " << buf << std::endl;
+		}
+
+		return 0;
 	}
-	unsigned short port = 3030;
-
-	Socket sock;
-	Address addr(127, 0, 0, 1, port);
-	unsigned char msg[] = "I'm gay";
-	unsigned char buf[256];
-
-	if (!sock.Open(port)) {
-		// Socket failed to open
-		return -1;
-	}
-
-	std::cout << "Socket opened" << std::endl;
-
-	sock.Send(addr, msg, sizeof(msg));
-
-	int bytes = -1;
-	while (bytes < 0) {
-		Address sender;
-		bytes = sock.Receive(sender, buf, sizeof(buf));
-		std::cout << "[DATA] " << buf << std::endl;
-	}
-
-	return 0;
 }
-
+*/
