@@ -15,10 +15,10 @@ namespace net {
 
 		unsigned int GetAddress() const;
 
-		unsigned char GetIP1() const;
-		unsigned char GetIP2() const;
-		unsigned char GetIP3() const;
-		unsigned char GetIP4() const;
+		unsigned int GetIP1() const;
+		unsigned int GetIP2() const;
+		unsigned int GetIP3() const;
+		unsigned int GetIP4() const;
 
 		unsigned short GetPort() const;
 

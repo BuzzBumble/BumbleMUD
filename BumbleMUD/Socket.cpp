@@ -12,16 +12,14 @@
 #include <iostream>
 #include "Address.h"
 
+#define _BMUD_NONBLOCK 0;
+
 namespace net {
 	Socket::~Socket() {
 		Close();
 	}
 
-	bool Socket::Open(unsigned short port) {
-		sockaddr_in addr;
-		addr.sin_family = AF_INET;
-		addr.sin_addr.s_addr = INADDR_ANY;
-		addr.sin_port = htons(port);
+	bool Socket::Open() {
 		handle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 		if (handle <= 0) {
@@ -29,34 +27,43 @@ namespace net {
 			return false;
 		}
 
+		return handle > 0;
+	}
+
+	bool Socket::Bind(unsigned short port) {
+		sockaddr_in addr;
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = INADDR_ANY;
+		addr.sin_port = htons(port);
+
 		if (bind(handle, (const sockaddr*)&addr, sizeof(sockaddr_in)) < 0) {
 			std::cerr << "Failed to bind socket" << std::endl;
 			return false;
 		}
 
-#if PLATFORM == PLATFORM_WIN
-		DWORD nonBlock = 1;
-		if (ioctlsocket(handle, FIONBIO, &nonBlock) != 0) {
-			std::cerr << "Failed to set socket to non-blocking" << std::endl;
-			return false;
-		}
-#elif (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNX)
-		int nonBlock = 1;
-		if (fcntl(handle, F_SETFL, O_NONBLOCK, nonBlock) == -1) {
-			std::cerr << "Failed to set socket to non-blocking" << std::endl;
-			return false;
-		}
-#endif
+		#if PLATFORM == PLATFORM_WIN
+			DWORD nonBlock = _BMUD_NONBLOCK;
+			if (ioctlsocket(handle, FIONBIO, &nonBlock) != 0) {
+				std::cerr << "Failed to set socket to non-blocking" << std::endl;
+				return false;
+			}
+		#elif (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNX)
+			int nonBlock = _BMUD_NONBLOCK;
+			if (fcntl(handle, F_SETFL, O_NONBLOCK, nonBlock) == -1) {
+				std::cerr << "Failed to set socket to non-blocking" << std::endl;
+				return false;
+			}
+		#endif
 
-		return handle > 0;
-		}
+		return true;
+	}
 
 	void Socket::Close() {
-#if (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX)
-		close(handle);
-#elif PLATFORM == PLATFORM_WINDOWS
-		closesocket(handle);
-#endif
+		#if (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX)
+			close(handle);
+		#elif PLATFORM == PLATFORM_WINDOWS
+			closesocket(handle);
+		#endif
 		handle = -1;
 	}
 
@@ -98,6 +105,8 @@ namespace net {
 			0,
 			(sockaddr*)&addr,
 			&addr_size);
+
+		sender = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));
 
 		if (read_bytes <= 0) {
 			//std::cerr << "NO BYTE" << std::endl;

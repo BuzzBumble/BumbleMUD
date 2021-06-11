@@ -35,20 +35,20 @@ namespace net {
 		return address;
 	}
 
-	unsigned char Address::GetIP1() const {
+	unsigned int Address::GetIP1() const {
 		return address >> 24 & 0xFF;
 	}
 
-	unsigned char Address::GetIP2() const {
+	unsigned int Address::GetIP2() const {
 		return (address >> 16) & 0xFF;
 	}
 
-	unsigned char Address::GetIP3() const {
+	unsigned int Address::GetIP3() const {
 		return (address >> 8) & 0xFF;
 	}
 
-	unsigned char Address::GetIP4() const {
-		return (address >> 24) & 0xFF;
+	unsigned int Address::GetIP4() const {
+		return address & 0xFF;
 	}
 
 	unsigned short Address::GetPort() const {

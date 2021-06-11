@@ -27,7 +27,9 @@ namespace net {
 
 		~Socket();
 
-		bool Open(unsigned short port);
+		bool Open();
+
+		bool Bind(unsigned short port);
 
 		void Close();
 
