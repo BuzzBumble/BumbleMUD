@@ -20,6 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameMessage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameMessage.h" />
+    <ClInclude Include="json.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game_messages.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

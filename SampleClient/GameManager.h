@@ -1,0 +1,22 @@
+#pragma once
+
+#include <unordered_map>
+
+#include "json.hpp"
+#include "GameMessage.h"
+
+
+class GameManager {
+public:
+	static const std::string FileName;
+
+	GameManager() = default;
+
+	bool init();
+	bool readMessagesFile();
+
+	const GameMessage& getMessage(const std::string& messageID);
+
+private:
+	std::unordered_map<std::string, GameMessage*> Messages;
+};

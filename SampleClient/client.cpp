@@ -2,9 +2,14 @@
 #include "Socket.h"
 #include "Net.h"
 #include "Character.h"
+#include "GameManager.h"
+#include "json.hpp"
 
 #include <string>
+#include <sstream>
 #include <iostream>
+#include <fstream>
+
 #pragma warning(disable:4996) 
 
 void displayMessage(const std::string& message, bool newline);
@@ -15,6 +20,10 @@ int main() {
 		std::cout << "Could not initialize Winsock" << std::endl;
 		return -1;
 	}
+
+	GameManager gm;
+	gm.init();
+	gm.getMessage("welcome").display();
 
 	char buf[net::Socket::MAX_PACKET_SIZE];
 
