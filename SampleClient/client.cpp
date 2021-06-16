@@ -53,7 +53,6 @@ int main() {
 	
 	sock.Send(msg, strlen(msg)+1);
 	std::cout << "[SENT] " << strlen(msg)+1 << " BYTES: " << msg << std::endl;
-	sock.Receive(buf, sizeof(buf));
 
 	std::cout << "[RECEIVED] " << buf << std::endl;
 

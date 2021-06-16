@@ -4,7 +4,7 @@
 
 namespace net {
 	class Address;
-	class UDPSocket : Socket {
+	class UDPSocket : public Socket {
 	public:
 		UDPSocket() = default;
 

@@ -26,10 +26,7 @@ int main() {
 
 	GameServer server;
 	server.Init(port);
-	server.Accept();
-
-	char c;
-	std::cin >> c;
+	server.Run();
 
 	// Handle the connection
 	// Move everything under this to Client

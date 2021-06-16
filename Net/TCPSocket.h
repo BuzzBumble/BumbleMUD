@@ -4,12 +4,9 @@
 
 namespace net {
 	class Address;
-	class TCPSocket : Socket {
+	class TCPSocket : public Socket {
 	public:
 		TCPSocket() = default;
-
-		TCPSocket(int handle)
-			: handle(handle) {}
 
 		~TCPSocket();
 
@@ -27,14 +24,6 @@ namespace net {
 
 		int Accept(Address& peerAddr);
 
-		int Receive(int sockfd, void* data, int size);
-		int Receive(void* data, int size);
-
 		bool Connect(const Address& servAddr);
-
-		void SetNonblock(const bool value);
-
-	private:
-		int handle = -1;
 	};
 }

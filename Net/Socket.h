@@ -17,7 +17,9 @@ namespace net {
 
 		virtual bool IsOpen() const = 0;
 
-	private:
-		int handle = -1;
+		unsigned int GetHandle() const;
+
+	protected:
+		unsigned int handle = 0;
 	};
 }

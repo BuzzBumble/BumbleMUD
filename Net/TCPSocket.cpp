@@ -79,48 +79,12 @@ namespace net {
 		return newfd;
 	}
 
-	int TCPSocket::Receive(int sockfd, void* data, int size) {
-		unsigned int max_packet_size = MAX_PACKET_SIZE;
-
-		int read_bytes = recv(sockfd,
-			static_cast<char*>(data),
-			max_packet_size,
-			0);
-
-		return read_bytes;
-	}
-
-	int TCPSocket::Receive(void* data, int size) {
-		unsigned int max_packet_size = MAX_PACKET_SIZE;
-
-		int read_bytes = recv(handle,
-			static_cast<char*>(data),
-			max_packet_size,
-			0);
-
-		return read_bytes;
-	}
-
 	bool TCPSocket::Connect(const Address& servAddr) {
 		int addr_size = sizeof(sockaddr_in);
 		if (connect(handle, (sockaddr*)&servAddr.GetSockAddr(), addr_size) < 0) {
 			return false;
 		}
 		return true;
-	}
-
-	void TCPSocket::SetNonblock(const bool value) {
-		#if PLATFORM == PLATFORM_WIN
-			DWORD nonblock = value;
-			if (ioctlsocket(handle, FIONBIO, &nonblock) != 0) {
-				std::cerr << "Failed to set socket to non-blocking" << std::endl;
-			}
-		#elif (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNX)
-			int nonBlock = _BMUD_NONBLOCK;
-			if (fcntl(handle, F_SETFL, O_NONBLOCK, nonblock) == -1) {
-				std::cerr << "Failed to set socket to non-blocking" << std::endl;
-			}
-		#endif
 	}
 
 }
