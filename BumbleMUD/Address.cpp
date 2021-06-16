@@ -17,18 +17,27 @@ namespace net {
 		unsigned char ip3,
 		unsigned char ip4,
 		unsigned short port)
-		: port(port) {
+		: port(port)
+	{
 		address = (
 			(ip1 << 24) |
 			(ip2 << 16) |
 			(ip3 << 8) |
 			ip4
-			);
+		);
+
+		sockAddr.sin_family = AF_INET;
+		sockAddr.sin_addr.s_addr = htonl(address);
+		sockAddr.sin_port = htons(port);
 	}
 
 	Address::Address(unsigned int addr, unsigned short port)
 		: address(addr)
 		, port(port) {
+
+		sockAddr.sin_family = AF_INET;
+		sockAddr.sin_addr.s_addr = htonl(address);
+		sockAddr.sin_port = htons(port);
 	}
 
 	unsigned int Address::GetAddress() const {
@@ -53,5 +62,9 @@ namespace net {
 
 	unsigned short Address::GetPort() const {
 		return port;
+	}
+
+	const sockaddr_in& Address::GetSockAddr() const {
+		return sockAddr;
 	}
 }

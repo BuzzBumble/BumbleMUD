@@ -1,4 +1,5 @@
 #pragma once
+#include "net_common.h"
 
 namespace net {
 	class Address {
@@ -22,7 +23,10 @@ namespace net {
 
 		unsigned short GetPort() const;
 
+		const sockaddr_in& GetSockAddr() const;
+
 	private:
+		sockaddr_in sockAddr;
 		unsigned int address;
 		unsigned short port;
 	};

@@ -57,11 +57,29 @@ namespace net {
 			0);
 
 		if (sent_bytes != size) {
-			std::cerr << "Failed to send packet" << std::endl;
 			return false;
 		}
 
 		return true;
+	}
+
+	bool TCPSocket::Listen(const int& maxConn) {
+		if (listen(handle, maxConn) < 0) {
+			// Error occurred
+			return false;
+		}
+		return true;
+	}
+
+	int TCPSocket::Accept(Address& peerAddr) {
+		sockaddr_in addr;
+		int addr_size = sizeof(sockaddr_in);
+
+		int newfd = accept(handle, (sockaddr*)&addr, &addr_size);
+
+		peerAddr = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));
+
+		return newfd;
 	}
 
 	int TCPSocket::Receive(Address& sender, void* data, int size) {
@@ -85,6 +103,14 @@ namespace net {
 		}
 
 		return read_bytes;
+	}
+
+	bool TCPSocket::Connect(const Address& servAddr) {
+		int addr_size = sizeof(sockaddr_in);
+		if (connect(handle, (sockaddr*)&servAddr.GetSockAddr(), addr_size) < 0) {
+			return false;
+		}
+		return true;
 	}
 
 	void TCPSocket::SetNonblock(const bool value) {

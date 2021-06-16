@@ -20,7 +20,13 @@ namespace net {
 
 		bool Send(const Address& dest, const void* data, int size);
 
+		bool Listen(const int& maxConn);
+
+		int Accept(Address& peerAddr);
+
 		int Receive(Address& sender, void* data, int size);
+
+		bool Connect(const Address& servAddr);
 
 		void SetNonblock(const bool value);
 
