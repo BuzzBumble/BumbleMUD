@@ -15,8 +15,12 @@ public:
 	bool init();
 	bool readMessagesFile();
 
+	int readInput();
+
 	const GameMessage& getMessage(const std::string& messageID);
 
 private:
 	std::unordered_map<std::string, GameMessage*> Messages;
+
+	std::string lastInput;
 };

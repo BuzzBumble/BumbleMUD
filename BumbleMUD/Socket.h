@@ -16,28 +16,24 @@
 #define _WIN32_WINNT 0x0A00
 #endif
 
-
 namespace net {
 	class Address;
 	class Socket {
 	public:
 
 		static constexpr int MAX_PACKET_SIZE = 256;
-		Socket() = default;
 
-		~Socket();
+		virtual bool Open() = 0;
 
-		bool Open();
+		virtual bool Bind(unsigned short port) = 0;
 
-		bool Bind(unsigned short port);
+		virtual void Close() = 0;
 
-		void Close();
+		virtual bool IsOpen() const = 0;
 
-		bool IsOpen() const;
+		virtual bool Send(const Address& dest, const void* data, int size) = 0;
 
-		bool Send(const Address& dest, const void* data, int size);
-
-		int Receive(Address& sender, void* data, int size);
+		virtual int Receive(Address& sender, void* data, int size) = 0;
 
 	private:
 		int handle = -1;

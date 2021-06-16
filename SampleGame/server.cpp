@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Address.h"
-#include "Socket.h"
+#include "UDPSocket.h"
 #include "Net.h"
 
 #include <memory>
@@ -21,7 +21,7 @@ int main() {
 
 	char buf[net::Socket::MAX_PACKET_SIZE];
 	unsigned short port = 3030;
-	net::Socket sock;
+	net::UDPSocket sock;
 	net::Address addr(127, 0, 0, 1, port);
 
 	if (!sock.Open() || !sock.Bind(port)) {

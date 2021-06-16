@@ -16,6 +16,12 @@ const GameMessage& GameManager::getMessage(const std::string& messageID) {
 	return *Messages[messageID];
 }
 
+int GameManager::readInput() {
+	lastInput = "";
+	std::cin >> lastInput;
+	return lastInput.length();
+}
+
 bool GameManager::readMessagesFile() {
 	std::ifstream msgFile(FileName);
 	std::ostringstream oss;
