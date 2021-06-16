@@ -8,7 +8,7 @@ public:
 	Character(const std::string& name, int maxHealth);
 	virtual bool init() = 0;
 
-	int getID() const;
+	unsigned long long getID() const;
 	std::string getName() const;
 	int getMaxHealth() const;
 	int getCurrentHealth() const;
@@ -18,7 +18,7 @@ public:
 	void dealDamage(Character& victim, int damage);
 
 protected:
-	unsigned int id = 0;
+	unsigned long long id;
 	std::pair<int, int> coords;
 	std::string name;
 	int maxHealth;

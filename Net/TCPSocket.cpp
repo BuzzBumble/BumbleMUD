@@ -15,6 +15,9 @@ namespace net {
 			return false;
 		}
 
+		const char reuse = 1;
+		setsockopt(handle, SOL_SOCKET, SO_REUSEADDR | SO_BROADCAST, &reuse, sizeof(reuse));
+
 		return handle > 0;
 	}
 

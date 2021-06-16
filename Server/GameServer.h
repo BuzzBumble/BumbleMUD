@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Socket.h"
+#include "TCPSocket.h"
 #include "Player.h"
 #include <memory>
 #include <vector>
@@ -10,9 +10,9 @@ public:
 	GameServer() = default;
 	bool Init(const unsigned short& port);
 
-	int Listen();
+	void Accept();
 
 private:
-	net::Socket socket;
+	net::TCPSocket socket;
 	std::vector<std::unique_ptr<Player>> activePlayers;
 };

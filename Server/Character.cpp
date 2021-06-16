@@ -4,9 +4,10 @@ Character::Character(const std::string& name, int maxHealth)
 	: name(name)
 	, maxHealth(maxHealth)
 	, currentHealth(maxHealth) {
+	id = 0;
 }
 
-int Character::getID() const {
+unsigned long long Character::getID() const {
 	return id;
 }
 

@@ -5,12 +5,13 @@
 class Player : public Character {
 public:
 	Player() = default;
-	Player(const std::string& name, int maxHealth, const net::Address& addr)
+	Player(const std::string& name, int maxHealth, const net::Address& addr, int sockfd)
 		: Character(name, maxHealth)
-		, addr(addr){}
+		, addr(addr)
+		, sockfd(sockfd){}
 
-	bool init();
+	bool init(const unsigned long long& newID);
 private:
-	static unsigned int IDCounter;
 	net::Address addr;
+	int sockfd;
 };

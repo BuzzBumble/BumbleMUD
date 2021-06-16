@@ -1,10 +1,8 @@
 #include "Player.h"
 
-unsigned int Player::IDCounter = 1;
-
-bool Player::init() {
+bool Player::init(const unsigned long long& newID) {
 	// Add character to the server
-	id = IDCounter++;
+	id = newID;
 	// If character was not added successfully
 	return false;
 	// Else
