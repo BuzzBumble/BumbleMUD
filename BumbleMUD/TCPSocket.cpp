@@ -12,7 +12,6 @@ namespace net {
 		handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (handle <= 0) {
-			std::cerr << "Failed to create socket" << std::endl;
 			return false;
 		}
 
@@ -26,7 +25,6 @@ namespace net {
 		addr.sin_port = htons(port);
 
 		if (bind(handle, (const sockaddr*)&addr, sizeof(sockaddr_in)) < 0) {
-			std::cerr << "Failed to bind socket" << std::endl;
 			return false;
 		}
 
@@ -46,11 +44,7 @@ namespace net {
 		return handle != -1;
 	}
 
-	bool TCPSocket::Send(const Address& dest, const void* data, int size) {
-		sockaddr_in addr;
-		addr.sin_family = AF_INET;
-		addr.sin_addr.s_addr = htonl(dest.GetAddress());
-		addr.sin_port = htons(dest.GetPort());
+	bool TCPSocket::Send(const void* data, int size) {
 		int sent_bytes = send(handle,
 			static_cast<const char*>(data),
 			size,
@@ -82,25 +76,24 @@ namespace net {
 		return newfd;
 	}
 
-	int TCPSocket::Receive(Address& sender, void* data, int size) {
+	int TCPSocket::Receive(int sockfd, void* data, int size) {
 		unsigned int max_packet_size = MAX_PACKET_SIZE;
 
-		sockaddr_in addr;
-		int addr_size = sizeof(sockaddr_in);
-
-		int read_bytes = recvfrom(handle,
+		int read_bytes = recv(sockfd,
 			static_cast<char*>(data),
 			max_packet_size,
-			0,
-			(sockaddr*)&addr,
-			&addr_size);
+			0);
 
-		sender = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));
+		return read_bytes;
+	}
 
-		if (read_bytes <= 0) {
-			// If 0, connection was closed
-			// If -1, error occurred
-		}
+	int TCPSocket::Receive(void* data, int size) {
+		unsigned int max_packet_size = MAX_PACKET_SIZE;
+
+		int read_bytes = recv(handle,
+			static_cast<char*>(data),
+			max_packet_size,
+			0);
 
 		return read_bytes;
 	}

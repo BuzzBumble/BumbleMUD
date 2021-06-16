@@ -17,10 +17,6 @@ namespace net {
 
 		virtual bool IsOpen() const = 0;
 
-		virtual bool Send(const Address& dest, const void* data, int size) = 0;
-
-		virtual int Receive(Address& sender, void* data, int size) = 0;
-
 	private:
 		int handle = -1;
 	};

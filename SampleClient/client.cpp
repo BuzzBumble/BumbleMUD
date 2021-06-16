@@ -1,5 +1,5 @@
 #include "Address.h"
-#include "UDPSocket.h"
+#include "TCPSocket.h"
 #include "Net.h"
 #include "Character.h"
 #include "GameManager.h"
@@ -25,36 +25,35 @@ int main() {
 	gm.init();
 	gm.getMessage("welcome").display();
 
-/*
-	std::string s = "scott>=tiger";
-std::string delimiter = ">=";
-std::string token = s.substr(0, s.find(delimiter)); // token is "scott"
-*/
-
 	char buf[net::Socket::MAX_PACKET_SIZE];
 
 	unsigned short serverport = 3030;
 
 	net::Address serverAddr(127, 0, 0, 1, serverport);
 
-	net::UDPSocket sock;
+	net::TCPSocket sock;
 
 	if (!sock.Open()) {
 		return -1;
 	}
 
+	gm.readInput();
+
+	if (!sock.Connect(serverAddr)) {
+		return -1;
+	}
+
 	int numBytes = -1;
 
-	gm.readInput();
 	char msg[256];
 	std::string name = "Steven";
 	msg[0] = 1;
 	name.copy(&msg[1], name.size());
 	msg[name.size() + 1] = '\0';
 	
-	sock.Send(serverAddr, msg, strlen(msg)+1);
-	std::cout << "[SENT] " << msg << std::endl;
-	sock.Receive(serverAddr, buf, sizeof(buf));
+	sock.Send(msg, strlen(msg)+1);
+	std::cout << "[SENT] " << strlen(msg)+1 << " BYTES: " << msg << std::endl;
+	sock.Receive(buf, sizeof(buf));
 
 	std::cout << "[RECEIVED] " << buf << std::endl;
 

@@ -8,6 +8,9 @@ namespace net {
 	public:
 		TCPSocket() = default;
 
+		TCPSocket(int handle)
+			: handle(handle) {}
+
 		~TCPSocket();
 
 		bool Open();
@@ -18,13 +21,14 @@ namespace net {
 
 		bool IsOpen() const;
 
-		bool Send(const Address& dest, const void* data, int size);
+		bool Send(const void* data, int size);
 
 		bool Listen(const int& maxConn);
 
 		int Accept(Address& peerAddr);
 
-		int Receive(Address& sender, void* data, int size);
+		int Receive(int sockfd, void* data, int size);
+		int Receive(void* data, int size);
 
 		bool Connect(const Address& servAddr);
 
