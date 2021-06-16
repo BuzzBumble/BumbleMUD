@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "UDPSocket.h"
+#include "TCPSocket.h"
 #include "Address.h"
 
 namespace net {
-	UDPSocket::~UDPSocket() {
+	TCPSocket::~TCPSocket() {
 		Close();
 	}
 
-	bool UDPSocket::Open() {
-		handle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	bool TCPSocket::Open() {
+		handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (handle <= 0) {
 			std::cerr << "Failed to create socket" << std::endl;
@@ -19,7 +19,7 @@ namespace net {
 		return handle > 0;
 	}
 
-	bool UDPSocket::Bind(unsigned short port) {
+	bool TCPSocket::Bind(unsigned short port) {
 		sockaddr_in addr;
 		addr.sin_family = AF_INET;
 		addr.sin_addr.s_addr = INADDR_ANY;
@@ -33,7 +33,7 @@ namespace net {
 		return true;
 	}
 
-	void UDPSocket::Close() {
+	void TCPSocket::Close() {
 		#if (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX)
 			close(handle);
 		#elif PLATFORM == PLATFORM_WINDOWS
@@ -42,33 +42,29 @@ namespace net {
 		handle = -1;
 	}
 
-	bool UDPSocket::IsOpen() const {
+	bool TCPSocket::IsOpen() const {
 		return handle != -1;
 	}
 
-	bool UDPSocket::Send(const Address& dest, const void* data, int size) {
+	bool TCPSocket::Send(const Address& dest, const void* data, int size) {
 		sockaddr_in addr;
 		addr.sin_family = AF_INET;
 		addr.sin_addr.s_addr = htonl(dest.GetAddress());
 		addr.sin_port = htons(dest.GetPort());
-		int sent_bytes = sendto(handle,
+		int sent_bytes = send(handle,
 			static_cast<const char*>(data),
 			size,
-			0,
-			(sockaddr*)&addr,
-			sizeof(sockaddr_in));
+			0);
 
 		if (sent_bytes != size) {
 			std::cerr << "Failed to send packet" << std::endl;
 			return false;
 		}
 
-		std::cout << "Successfully sent packet of size " << sent_bytes << std::endl;
-
 		return true;
 	}
 
-	int UDPSocket::Receive(Address& sender, void* data, int size) {
+	int TCPSocket::Receive(Address& sender, void* data, int size) {
 		unsigned int max_packet_size = MAX_PACKET_SIZE;
 
 		sockaddr_in addr;
@@ -84,13 +80,14 @@ namespace net {
 		sender = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));
 
 		if (read_bytes <= 0) {
-			//std::cerr << "NO BYTE" << std::endl;
+			// If 0, connection was closed
+			// If -1, error occurred
 		}
 
 		return read_bytes;
 	}
 
-	void UDPSocket::SetNonblock(const bool value) {
+	void TCPSocket::SetNonblock(const bool value) {
 		#if PLATFORM == PLATFORM_WIN
 			DWORD nonblock = value;
 			if (ioctlsocket(handle, FIONBIO, &nonblock) != 0) {

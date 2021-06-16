@@ -140,13 +140,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Address.cpp" />
+    <ClCompile Include="TCPSocket.cpp" />
     <ClCompile Include="UDPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Address.h" />
     <ClInclude Include="ClientCode.h" />
+    <ClInclude Include="net_common.h" />
     <ClInclude Include="Net.h" />
     <ClInclude Include="Socket.h" />
+    <ClInclude Include="TCPSocket.h" />
     <ClInclude Include="UDPSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

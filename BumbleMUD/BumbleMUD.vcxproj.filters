@@ -21,6 +21,9 @@
     <ClCompile Include="UDPSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TCPSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket.h">
@@ -36,6 +39,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UDPSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="net_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
