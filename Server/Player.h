@@ -10,7 +10,7 @@ public:
 		, addr(addr)
 		, sockfd(sockfd){}
 
-	bool init(const unsigned long long& newID);
+	bool init();
 private:
 	net::Address addr;
 	int sockfd;

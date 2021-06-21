@@ -1,8 +1,8 @@
 #include "Enemy.h"
 
-bool Enemy::init(const unsigned long long& newID) {
+bool Enemy::init() {
 	// Add character to the server
-	id = newID;
+	Character::init();
 	// If character was not added successfully
 	return false;
 	// Else

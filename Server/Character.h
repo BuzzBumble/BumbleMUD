@@ -1,14 +1,13 @@
 #pragma once
 #include <string>
+#include "DataObject.h"
 
-
-class Character {
+class Character : public DataObject {
 public:
 	Character() = default;
 	Character(const std::string& name, int maxHealth);
-	virtual bool init() = 0;
+	virtual bool init();
 
-	unsigned long long getID() const;
 	std::string getName() const;
 	int getMaxHealth() const;
 	int getCurrentHealth() const;
@@ -18,7 +17,6 @@ public:
 	void dealDamage(Character& victim, int damage);
 
 protected:
-	unsigned long long id;
 	std::pair<int, int> coords;
 	std::string name;
 	int maxHealth;

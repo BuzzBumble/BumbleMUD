@@ -4,11 +4,11 @@ Character::Character(const std::string& name, int maxHealth)
 	: name(name)
 	, maxHealth(maxHealth)
 	, currentHealth(maxHealth) {
-	id = 0;
 }
 
-unsigned long long Character::getID() const {
-	return id;
+bool Character::init() {
+	AssignDobjID();
+	return true;
 }
 
 std::string Character::getName() const {

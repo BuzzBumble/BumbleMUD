@@ -7,6 +7,6 @@ public:
 	Enemy() = default;
 	Enemy(const std::string& name, int maxHealth) : Character(name, maxHealth) {}
 
-	bool init(const unsigned long long& newID);
+	bool init();
 private:
 };
