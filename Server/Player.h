@@ -5,10 +5,7 @@
 class Player : public Character {
 public:
 	Player() = default;
-	Player(const std::string& name, int maxHealth, const net::Address& addr, int sockfd)
-		: Character(name, maxHealth)
-		, addr(addr)
-		, sockfd(sockfd){}
+	Player(const std::string& name, const net::Address& addr, int sockfd);
 
 	bool init();
 private:

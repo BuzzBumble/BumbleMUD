@@ -3,6 +3,7 @@
 #include <iostream>
 
 const unsigned short GameServer::BUFSIZE = 1024;
+const unsigned short GameServer::MAXPLAYERS = 64;
 
 bool GameServer::Init(const unsigned short& port) {
 	if (!socket.Open() || !socket.Bind(port) || !socket.Listen(10)) {
@@ -53,7 +54,11 @@ int GameServer::Receive(unsigned int recfd) {
 
 unsigned int GameServer::Accept() {
 	net::Address clientAddr;
-	unsigned int newfd = socket.Accept(clientAddr);
+	int newfd = socket.Accept(clientAddr);
+	if (newfd == -1) {
+		std::cerr << "[ERROR] GameServer::Accept()" << std::endl;
+		return 0;
+	}
 	FD_SET(newfd, &rset);
 	maxfdp1 = max(maxfdp1, newfd + 1);
 
@@ -68,3 +73,11 @@ unsigned int GameServer::Accept() {
 	return newfd;
 }
 
+bool GameServer::AddPlayer(const std::string& name, const net::Address& clientAddr, int sockfd) {
+	if (activePlayers.size() >= MAXPLAYERS) {
+		return false;
+	}
+
+	activePlayers.emplace_back(std::make_unique<Player>(name, clientAddr, sockfd));
+	return true;
+}

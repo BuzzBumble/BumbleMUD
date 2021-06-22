@@ -1,10 +1,7 @@
 #include "Character.h"
 
-Character::Character(const std::string& name, int maxHealth)
-	: name(name)
-	, maxHealth(maxHealth)
-	, currentHealth(maxHealth) {
-}
+Character::Character(const std::string& name)
+	: name(name) {}
 
 bool Character::init() {
 	AssignDobjID();

@@ -26,13 +26,6 @@ int main() {
 
 	GameServer server;
 
-	Player p;
-	p.init();
-	Enemy e;
-	e.init();
-
-	std::cout << "Player " << p.GetDobjID() << std::endl;
-	std::cout << "Enemy " << e.GetDobjID() << std::endl;
 	server.Init(port);
 	server.Run();
 

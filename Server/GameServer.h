@@ -9,6 +9,7 @@
 class GameServer {
 public:
 	static const unsigned short BUFSIZE;
+	static const unsigned short MAXPLAYERS;
 	GameServer() = default;
 	bool Init(const unsigned short& port);
 
@@ -16,6 +17,7 @@ public:
 
 	unsigned int Accept();
 	int Receive(unsigned int recfd);
+	bool AddPlayer(const std::string& name, const net::Address& clientAddr, int sockfd);
 
 private:
 	net::TCPSocket socket;
