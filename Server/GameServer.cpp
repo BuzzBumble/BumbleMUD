@@ -1,4 +1,5 @@
 #include "GameServer.h"
+#include "Responder.h"
 
 #include <iostream>
 
@@ -47,9 +48,11 @@ void GameServer::Run() {
 }
 
 int GameServer::Receive(unsigned int recfd) {
-	int n = recv(recfd, buf, BUFSIZE, 0);
-	std::cout << buf << std::endl;
-	return n;
+	return recv(recfd, buf, BUFSIZE, 0);
+}
+
+int GameServer::Send(unsigned int sendfd, const std::string& dataStr) {
+	return send(sendfd, dataStr.c_str(), dataStr.size() + 1, 0);
 }
 
 unsigned int GameServer::Accept() {
@@ -60,7 +63,7 @@ unsigned int GameServer::Accept() {
 		return 0;
 	}
 	FD_SET(newfd, &rset);
-	maxfdp1 = max(maxfdp1, newfd + 1);
+	maxfdp1 = max(maxfdp1, static_cast<unsigned int>(newfd + 1));
 
 	std::cout << "[CONNECTION] FROM " << 
 		clientAddr.GetIP1() << "." <<
@@ -70,14 +73,20 @@ unsigned int GameServer::Accept() {
 		clientAddr.GetPort() <<
 		std::endl;
 
+	ConnectPlayer("TestPlayer", "Test Description", clientAddr, newfd);
+
 	return newfd;
 }
 
-bool GameServer::AddPlayer(const std::string& name, const net::Address& clientAddr, int sockfd) {
+bool GameServer::ConnectPlayer(const std::string& name, const std::string& description, const net::Address& clientAddr, int sockfd) {
 	if (activePlayers.size() >= MAXPLAYERS) {
+		// Player Limit reached
 		return false;
 	}
 
-	activePlayers.emplace_back(std::make_unique<Player>(name, clientAddr, sockfd));
+	activePlayers.emplace_back(std::make_unique<Player>(name, description, clientAddr, sockfd));
+	Responder res(Responder::Directive::ConnectPlayer, *activePlayers.back().get());
+	Send(sockfd, res.GetResponse());
+
 	return true;
 }

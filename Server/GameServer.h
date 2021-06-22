@@ -17,8 +17,8 @@ public:
 
 	unsigned int Accept();
 	int Receive(unsigned int recfd);
-	bool AddPlayer(const std::string& name, const net::Address& clientAddr, int sockfd);
-
+	int Send(unsigned int sendfd, const std::string& data);
+	bool ConnectPlayer(const std::string& name, const std::string& description, const net::Address& clientAddr, int sockfd);
 private:
 	net::TCPSocket socket;
 	std::vector<std::unique_ptr<Player>> activePlayers;

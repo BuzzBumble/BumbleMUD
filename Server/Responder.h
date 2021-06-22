@@ -27,7 +27,7 @@ public:
 	
 	void SetDobj(const DataObject& dobj);
 
-	const std::string const GetResponse() const;
+	const std::string GetResponse() const;
 
 private:
 	Directive directive;

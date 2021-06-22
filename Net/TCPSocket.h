@@ -20,6 +20,8 @@ namespace net {
 
 		bool Send(const void* data, int size);
 
+		bool Receive(char* buf, int size);
+
 		bool Listen(const int& maxConn);
 
 		int Accept(Address& peerAddr);

@@ -60,6 +60,11 @@ namespace net {
 		return true;
 	}
 
+	bool TCPSocket::Receive(char* buf, int size) {
+		int recv_bytes = recv(handle, buf, size, 0);
+		return true;
+	}
+
 	bool TCPSocket::Listen(const int& maxConn) {
 		if (listen(handle, maxConn) < 0) {
 			// Error occurred

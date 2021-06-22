@@ -45,7 +45,7 @@ void Responder::SetDobj(const DataObject& dobj) {
 
 static std::string buildCP(const DataObject& dataObject);
 
-const std::string const Responder::GetResponse() const {
+const std::string Responder::GetResponse() const {
 
 	std::string response;
 
