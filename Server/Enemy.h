@@ -5,7 +5,7 @@
 class Enemy : public Character {
 public:
 	Enemy() = default;
-	Enemy(const std::string& name);
+	Enemy(const std::string& name, const std::string& description);
 
 	bool init();
 private:

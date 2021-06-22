@@ -5,10 +5,9 @@
 class Character : public DataObject {
 public:
 	Character() = default;
-	Character(const std::string& name);
+	Character(const std::string& name, const std::string& description);
 	virtual bool init();
 
-	std::string getName() const;
 	int getMaxHealth() const;
 	int getCurrentHealth() const;
 	std::pair<int, int> getCoords() const;
@@ -18,7 +17,6 @@ public:
 
 protected:
 	std::pair<int, int> coords;
-	std::string name;
 	int maxHealth = 0;
 	int currentHealth = 0;
 };

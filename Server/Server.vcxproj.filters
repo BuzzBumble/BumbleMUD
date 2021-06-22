@@ -1,59 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Libraries">
       <UniqueIdentifier>{ce355a4b-8342-4588-9404-696598108e6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Server Code">
+      <UniqueIdentifier>{a328b0fd-5662-49d7-8f38-6bd59e741ab0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server Code\Header Files">
+      <UniqueIdentifier>{b59f5c69-5d25-443a-b441-8bb7d44fa66d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server Code\Source Files">
+      <UniqueIdentifier>{bc347cf8-2837-4b06-8ade-a1ea7620071f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Code">
+      <UniqueIdentifier>{deb09b4c-c836-4c3d-a3f0-7eacf2901686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Code\Header Files">
+      <UniqueIdentifier>{a8d65613-f8b4-47b3-887c-d5a1120b43ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Code\Source Files">
+      <UniqueIdentifier>{f0598004-ae14-4eb1-bbfb-bf49693d7b41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Room.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameServer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Server Code\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DataObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Server Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Responder.cpp">
+      <Filter>Server Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Game Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Game Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="server.cpp">
+      <Filter>Server Code\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Room.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameServer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Server Code\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Server Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Responder.h">
+      <Filter>Server Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Game Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Game Code\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

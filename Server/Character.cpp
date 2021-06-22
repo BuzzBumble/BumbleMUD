@@ -1,15 +1,11 @@
 #include "Character.h"
 
-Character::Character(const std::string& name)
-	: name(name) {}
+Character::Character(const std::string& name, const std::string& description)
+	: DataObject(name, description) {}
 
 bool Character::init() {
 	AssignDobjID();
 	return true;
-}
-
-std::string Character::getName() const {
-	return name;
 }
 
 int Character::getMaxHealth() const {
