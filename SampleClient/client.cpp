@@ -43,17 +43,12 @@ int main() {
 		return -1;
 	}
 
+	std::string msg = "connect Buzzbumble \"Test Description\" Hello \"asdf\" \"asdf123 aewrf\" steven";
+	// ["connect", "Buzzbumble", "\"Test", "Description\""]
+
+	sock.Send(msg.c_str(), msg.size() + 1);
+
 	int numBytes = -1;
-
-	//char msg[256];
-	//std::string name = "Steven";
-	//msg[0] = 1;
-	//name.copy(&msg[1], name.size());
-	//msg[name.size() + 1] = '\0';
-	//
-	//sock.Send(msg, strlen(msg)+1);
-	// std::cout << "[SENT] " << strlen(msg)+1 << " BYTES: " << msg << std::endl;
-
 	sock.Receive(buf, 1024);
 	std::cout << "[RECEIVED] " << buf << std::endl;
 

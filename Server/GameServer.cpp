@@ -48,7 +48,11 @@ void GameServer::Run() {
 }
 
 int GameServer::Receive(unsigned int recfd) {
-	return recv(recfd, buf, BUFSIZE, 0);
+	char tmpBuf[BUFSIZE];
+	int recBytes = recv(recfd, tmpBuf, BUFSIZE, 0);
+	std::string buffer = static_cast<std::string>(tmpBuf);
+	std::vector<std::string> strVec = ParseMsg(buffer);
+	return recBytes;
 }
 
 int GameServer::Send(unsigned int sendfd, const std::string& dataStr) {
@@ -89,4 +93,29 @@ bool GameServer::ConnectPlayer(const std::string& name, const std::string& descr
 	Send(sockfd, res.GetResponse());
 
 	return true;
+}
+
+std::vector<std::string> GameServer::ParseMsg(std::string buffer) {
+	std::vector<std::string> strVec;
+	
+	size_t pos = 0;
+	std::string token;
+	while (buffer.size() > 0 && pos != std::string::npos) {
+		if (buffer.at(0) == '"') {
+			pos = buffer.find('"', 1);
+			strVec.push_back(buffer.substr(1, pos-1));
+			buffer.erase(0, pos + 2);
+		}
+		else {
+			pos = buffer.find(' ');
+			strVec.push_back(buffer.substr(0, pos));
+			buffer.erase(0, pos + 1);
+		}
+	}
+
+	for (size_t i = 0; i < strVec.size(); i++) {
+		std::cout << strVec.at(i) << std::endl;
+	}
+
+	return strVec;
 }
