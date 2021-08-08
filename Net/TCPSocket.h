@@ -18,9 +18,9 @@ namespace net {
 
 		bool IsOpen() const;
 
-		bool Send(const void* data, int size);
+		int Send(const void* data, int size);
 
-		bool Receive(char* buf, int size);
+		int Receive(char* buf, int size);
 
 		bool Listen(const int& maxConn);
 

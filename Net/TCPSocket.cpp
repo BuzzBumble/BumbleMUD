@@ -47,22 +47,15 @@ namespace net {
 		return handle != -1;
 	}
 
-	bool TCPSocket::Send(const void* data, int size) {
-		int sent_bytes = send(handle,
+	int TCPSocket::Send(const void* data, int size) {
+		return send(handle,
 			static_cast<const char*>(data),
 			size,
 			0);
-
-		if (sent_bytes != size) {
-			return false;
-		}
-
-		return true;
 	}
 
-	bool TCPSocket::Receive(char* buf, int size) {
-		int recv_bytes = recv(handle, buf, size, 0);
-		return true;
+	int TCPSocket::Receive(char* buf, int size) {
+		return recv(handle, buf, size, 0);
 	}
 
 	bool TCPSocket::Listen(const int& maxConn) {

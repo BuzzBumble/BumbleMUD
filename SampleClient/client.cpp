@@ -44,7 +44,6 @@ int main() {
 	}
 
 	std::string msg = gm.getLastInput();
-	std::cout << gm.getLastInput() << std::endl;
 
 	sock.Send(msg.c_str(), msg.size() + 1);
 
