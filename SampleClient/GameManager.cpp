@@ -16,9 +16,14 @@ const GameMessage& GameManager::getMessage(const std::string& messageID) {
 	return *Messages[messageID];
 }
 
+std::string GameManager::getLastInput() {
+	return lastInput;
+}
+
 int GameManager::readInput() {
 	lastInput = "";
-	std::cin >> lastInput;
+	std::getline(std::cin, lastInput);
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 	return lastInput.length();
 }
 

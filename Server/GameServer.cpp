@@ -96,6 +96,7 @@ bool GameServer::ConnectPlayer(const std::string& name, const std::string& descr
 }
 
 std::vector<std::string> GameServer::ParseMsg(std::string buffer) {
+	std::cout << "MSG: " << buffer << std::endl;
 	std::vector<std::string> strVec;
 	
 	size_t pos = 0;

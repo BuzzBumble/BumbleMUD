@@ -43,8 +43,8 @@ int main() {
 		return -1;
 	}
 
-	std::string msg = "connect Buzzbumble \"Test Description\" Hello \"asdf\" \"asdf123 aewrf\" steven";
-	// ["connect", "Buzzbumble", "\"Test", "Description\""]
+	std::string msg = gm.getLastInput();
+	std::cout << gm.getLastInput() << std::endl;
 
 	sock.Send(msg.c_str(), msg.size() + 1);
 
@@ -52,7 +52,7 @@ int main() {
 	sock.Receive(buf, 1024);
 	std::cout << "[RECEIVED] " << buf << std::endl;
 
-	gm.readInput();
+	std::cin.get();
 	return 0;
 }
 

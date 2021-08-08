@@ -18,6 +18,7 @@ public:
 	int readInput();
 
 	const GameMessage& getMessage(const std::string& messageID);
+	std::string getLastInput();
 
 private:
 	std::unordered_map<std::string, GameMessage*> Messages;
