@@ -21,6 +21,7 @@ public:
 	int Receive(unsigned int recfd);
 	int Send(unsigned int sendfd, const std::string& data);
 	bool ConnectPlayer(const std::string& name, const std::string& description, const net::Address& clientAddr, int sockfd);
+	void DisconnectPlayer(int sockfd);
 
 	std::vector<std::string> ParseMsg(std::string buffer);
 private:

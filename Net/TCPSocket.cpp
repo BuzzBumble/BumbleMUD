@@ -56,9 +56,6 @@ namespace net {
 
 	int TCPSocket::Receive(char* buf, int size) {
 		int bytes = recv(handle, buf, size, 0);
-		if (bytes < 0) {
-			std::cout << "TCPSocket::Receive() Error: " << WSAGetLastError() << std::endl;
-		}
 		return bytes;
 	}
 

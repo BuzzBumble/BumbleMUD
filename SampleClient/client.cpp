@@ -17,19 +17,23 @@
 void displayMessage(const std::string& message, bool newline);
 std::string receiveMessage();
 
-void waitForMessage(net::TCPSocket& sock) {
+void waitForMessage(net::TCPSocket sock) {
 	int recvBytes;
 	char buf[net::Socket::MAX_PACKET_SIZE];
 	ServerMessage sm = ServerMessage();
-	do {
+	while (true) {
 		recvBytes = sock.Receive(buf, net::Socket::MAX_PACKET_SIZE);
 		sm.parse(buf);
+		if (recvBytes < 1) {
+			break;
+		}
 		std::cout << std::endl << sm << std::endl;
-	} while (recvBytes > 0);
+	}
 }
 
 int main() {
 	std::string msg;
+	std::thread recvThread;
 
 	if (!net::InitializeSockets()) {
 		std::cout << "Could not initialize Winsock" << std::endl;
@@ -58,19 +62,21 @@ int main() {
 	}
 	std::cout << "Connected to server" << std::endl;
 
-	char buf[net::Socket::MAX_PACKET_SIZE];
-	ServerMessage sm = ServerMessage();
-	sock.Receive(buf, net::Socket::MAX_PACKET_SIZE);
-	sm.parse(buf);
-	std::cout << std::endl << sm << std::endl;
+	recvThread = std::thread(waitForMessage, sock);
 
-	while (gm.getLastInput() != "exit") {
+	while (true) {
 		std::cout <<  "Enter command: ";
 		gm.readInput();
 		msg = gm.getLastInput();
+		if (msg == "exit") {
+			closesocket(sock.GetHandle());
+			break;
+		}
 
 		sock.Send(msg.c_str(), msg.size() + 1);
 	}
+
+	recvThread.join();
 
 	std::cin.get();
 	return 0;

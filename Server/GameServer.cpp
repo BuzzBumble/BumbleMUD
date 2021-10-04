@@ -13,7 +13,6 @@ bool GameServer::Init(const unsigned short& port) {
 
 	FD_ZERO(&rset);
 	listenfd = socket.GetHandle();
-	std::cout << "Initialized Server on listfd #" << listenfd << std::endl;
 	FD_SET(listenfd, &rset);
 	maxfdp1 = listenfd + 1;
 
@@ -29,7 +28,6 @@ void GameServer::Run() {
 		if (nrdy >= 0) {
 			for (unsigned int i = 0; i < maxfdp1; i++) {
 				if (FD_ISSET(i, &tmp_rset)) {
-					std::cout << "Select() triggered on fd " << i << std::endl;
 					if (i == listenfd) {
 						Accept();
 					}
@@ -50,10 +48,14 @@ void GameServer::Run() {
 }
 
 int GameServer::Receive(unsigned int recfd) {
-	std::cout << "Receive() triggered: ";
 	char tmpBuf[BUFSIZE];
 	int recBytes = recv(recfd, tmpBuf, BUFSIZE, 0);
-	std::cout << recBytes << " bytes" << std::endl;
+	if (recBytes <= 0) {
+		std::cout << "Socket " << recfd << " Disconnected" << std::endl;
+		FD_CLR(recfd, &rset);
+		DisconnectPlayer(recfd);
+		return 0;
+	}
 	std::string buffer = static_cast<std::string>(tmpBuf);
 	std::cout << "Socket " << recfd << ": " << buffer << std::endl;
 	std::vector<std::string> strVec = ParseMsg(buffer);
@@ -65,7 +67,6 @@ int GameServer::Send(unsigned int sendfd, const std::string& dataStr) {
 }
 
 unsigned int GameServer::Accept() {
-	std::cout << "Accept() triggered" << std::endl;
 	net::Address clientAddr;
 	int newfd = socket.Accept(clientAddr);
 	if (newfd == -1) {
@@ -99,6 +100,14 @@ bool GameServer::ConnectPlayer(const std::string& name, const std::string& descr
 	Send(sockfd, res.GetResponse());
 
 	return true;
+}
+
+void GameServer::DisconnectPlayer(int sockfd) {
+	#if (PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX)
+		close(sockfd);
+	#elif PLATFORM == PLATFORM_WINDOWS
+		closesocket(sockfd);
+	#endif
 }
 
 std::vector<std::string> GameServer::ParseMsg(std::string buffer) {
