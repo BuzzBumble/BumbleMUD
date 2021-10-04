@@ -6,7 +6,7 @@ static std::string rtrim(const std::string& str);
 static std::string trim(const std::string & str);
 
 void ServerMessage::init() {
-	std::vector<std::string> msgVec = splitMessage(rawMsg);
+	msgVec = splitMessage(rawMsg);
 	directive = ServerMessage::StrToDir(msgVec[0]);
 	dobjID = std::stoull(msgVec[1]);
 }
@@ -40,6 +40,16 @@ ServerMessage::Directive ServerMessage::StrToDir(const std::string& s) {
 		return ServerMessage::Directive::Exit;
 	}
 	return ServerMessage::Directive::Unknown;
+}
+
+std::ostream& operator << (std::ostream& out, const ServerMessage& sm) {
+	out << "ServerMessage[";
+	size_t i;
+	for (i = 0; i < sm.msgVec.size() - 1; i++) {
+		out << sm.msgVec[i] << ", ";
+	}
+	out << sm.msgVec[i] << "]";
+	return out;
 }
 
 static std::vector<std::string> splitMessage(const std::string& buf) {

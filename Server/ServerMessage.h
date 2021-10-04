@@ -21,6 +21,8 @@ public:
 	};
 
 	static ServerMessage::Directive StrToDir(const std::string& s);
+	static const char Separator = '|';
+	static const char DirectivePrefix = '#';
 
 	ServerMessage() = default;
 	ServerMessage(const std::string& rawMsg) :
@@ -30,13 +32,12 @@ public:
 	}
 	~ServerMessage() = default;
 
-	static const char Separator = '|';
-	static const char DirectivePrefix = '#';
-
 	void init();
+	friend std::ostream& operator <<(std::ostream& out, const ServerMessage& sm);
 
 private:
 	Directive directive;
 	unsigned long long dobjID;
 	std::string rawMsg;
+	std::vector<std::string> msgVec;
 };

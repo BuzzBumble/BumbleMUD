@@ -44,7 +44,7 @@ int main() {
 	sock.Receive(buf, net::Socket::MAX_PACKET_SIZE);
 	ServerMessage sMsg = ServerMessage(buf);
 	sMsg.init();
-	std::cout << "[RECEIVED] " << buf << std::endl;
+	std::cout << sMsg << std::endl;
 
 	std::cout << "Enter command: ";
 	gm.readInput();
