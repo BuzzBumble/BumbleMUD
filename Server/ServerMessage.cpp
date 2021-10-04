@@ -5,7 +5,8 @@ static std::string ltrim(const std::string& str);
 static std::string rtrim(const std::string& str);
 static std::string trim(const std::string & str);
 
-void ServerMessage::init() {
+void ServerMessage::parse(const std::string& raw) {
+	rawMsg = raw;
 	msgVec = splitMessage(rawMsg);
 	directive = ServerMessage::StrToDir(msgVec[0]);
 	dobjID = std::stoull(msgVec[1]);

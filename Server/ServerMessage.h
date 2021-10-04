@@ -25,19 +25,14 @@ public:
 	static const char DirectivePrefix = '#';
 
 	ServerMessage() = default;
-	ServerMessage(const std::string& rawMsg) :
-		rawMsg(rawMsg),
-		dobjID(0),
-		directive(Directive::Unknown) {
-	}
 	~ServerMessage() = default;
 
-	void init();
+	void parse(const std::string& rawMsg);
 	friend std::ostream& operator <<(std::ostream& out, const ServerMessage& sm);
 
 private:
-	Directive directive;
-	unsigned long long dobjID;
+	Directive directive = Directive::Unknown;
+	unsigned long long dobjID = 0;
 	std::string rawMsg;
 	std::vector<std::string> msgVec;
 };

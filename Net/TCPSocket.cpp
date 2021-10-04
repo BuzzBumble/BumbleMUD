@@ -55,7 +55,11 @@ namespace net {
 	}
 
 	int TCPSocket::Receive(char* buf, int size) {
-		return recv(handle, buf, size, 0);
+		int bytes = recv(handle, buf, size, 0);
+		if (bytes < 0) {
+			std::cout << "TCPSocket::Receive() Error: " << WSAGetLastError() << std::endl;
+		}
+		return bytes;
 	}
 
 	bool TCPSocket::Listen(const int& maxConn) {
@@ -79,9 +83,11 @@ namespace net {
 
 	bool TCPSocket::Connect(const Address& servAddr) {
 		int addr_size = sizeof(sockaddr_in);
+		int xsize = sizeof(servAddr.GetSockAddr());
 		if (connect(handle, (sockaddr*)&servAddr.GetSockAddr(), addr_size) < 0) {
 			return false;
 		}
+
 		return true;
 	}
 

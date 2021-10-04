@@ -13,6 +13,7 @@ bool GameServer::Init(const unsigned short& port) {
 
 	FD_ZERO(&rset);
 	listenfd = socket.GetHandle();
+	std::cout << "Initialized Server on listfd #" << listenfd << std::endl;
 	FD_SET(listenfd, &rset);
 	maxfdp1 = listenfd + 1;
 
@@ -26,8 +27,9 @@ void GameServer::Run() {
 		tmp_rset = rset;
 		nrdy = select(maxfdp1, &tmp_rset, NULL, NULL, NULL);
 		if (nrdy >= 0) {
-			for (unsigned int i = 1; i < maxfdp1; i++) {
-				if (FD_ISSET(i, &rset)) {
+			for (unsigned int i = 0; i < maxfdp1; i++) {
+				if (FD_ISSET(i, &tmp_rset)) {
+					std::cout << "Select() triggered on fd " << i << std::endl;
 					if (i == listenfd) {
 						Accept();
 					}
@@ -48,9 +50,12 @@ void GameServer::Run() {
 }
 
 int GameServer::Receive(unsigned int recfd) {
+	std::cout << "Receive() triggered: ";
 	char tmpBuf[BUFSIZE];
 	int recBytes = recv(recfd, tmpBuf, BUFSIZE, 0);
+	std::cout << recBytes << " bytes" << std::endl;
 	std::string buffer = static_cast<std::string>(tmpBuf);
+	std::cout << "Socket " << recfd << ": " << buffer << std::endl;
 	std::vector<std::string> strVec = ParseMsg(buffer);
 	return recBytes;
 }
@@ -60,6 +65,7 @@ int GameServer::Send(unsigned int sendfd, const std::string& dataStr) {
 }
 
 unsigned int GameServer::Accept() {
+	std::cout << "Accept() triggered" << std::endl;
 	net::Address clientAddr;
 	int newfd = socket.Accept(clientAddr);
 	if (newfd == -1) {
@@ -74,7 +80,7 @@ unsigned int GameServer::Accept() {
 		clientAddr.GetIP2() << "." <<
 		clientAddr.GetIP3() << "." <<
 		clientAddr.GetIP4() << ":" <<
-		clientAddr.GetPort() <<
+		clientAddr.GetPort() << " on socket #" << newfd <<
 		std::endl;
 
 	ConnectPlayer("TestPlayer", "Test Description", clientAddr, newfd);
@@ -90,7 +96,7 @@ bool GameServer::ConnectPlayer(const std::string& name, const std::string& descr
 
 	activePlayers.emplace_back(std::make_unique<Player>(name, description, clientAddr, sockfd));
 	Responder res(Responder::Directive::ConnectPlayer, *activePlayers.back().get());
-	Send(sockfd, res.GetResponse().c_str());
+	Send(sockfd, res.GetResponse());
 
 	return true;
 }

@@ -10,13 +10,27 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <thread>
 
 #pragma warning(disable:4996) 
 
 void displayMessage(const std::string& message, bool newline);
 std::string receiveMessage();
 
+void waitForMessage(net::TCPSocket& sock) {
+	int recvBytes;
+	char buf[net::Socket::MAX_PACKET_SIZE];
+	ServerMessage sm = ServerMessage();
+	do {
+		recvBytes = sock.Receive(buf, net::Socket::MAX_PACKET_SIZE);
+		sm.parse(buf);
+		std::cout << std::endl << sm << std::endl;
+	} while (recvBytes > 0);
+}
+
 int main() {
+	std::string msg;
+
 	if (!net::InitializeSockets()) {
 		std::cout << "Could not initialize Winsock" << std::endl;
 		return -1;
@@ -26,7 +40,6 @@ int main() {
 	gm.init();
 	gm.getMessage("welcome").display();
 
-	char buf[net::Socket::MAX_PACKET_SIZE];
 
 	unsigned short serverport = 3030;
 
@@ -39,22 +52,30 @@ int main() {
 		return -1;
 	}
 
-	while (!sock.Connect(serverAddr)) {}
+	if (!sock.Connect(serverAddr)) {
+		std::cout << "Socket could not connect" << std::endl;
+		return -1;
+	}
 	std::cout << "Connected to server" << std::endl;
+
+	char buf[net::Socket::MAX_PACKET_SIZE];
+	ServerMessage sm = ServerMessage();
 	sock.Receive(buf, net::Socket::MAX_PACKET_SIZE);
-	ServerMessage sMsg = ServerMessage(buf);
-	sMsg.init();
-	std::cout << sMsg << std::endl;
+	sm.parse(buf);
+	std::cout << std::endl << sm << std::endl;
 
-	std::cout << "Enter command: ";
-	gm.readInput();
-	std::string msg = gm.getLastInput();
+	while (gm.getLastInput() != "exit") {
+		std::cout <<  "Enter command: ";
+		gm.readInput();
+		msg = gm.getLastInput();
 
-	sock.Send(msg.c_str(), msg.size() + 1);
+		sock.Send(msg.c_str(), msg.size() + 1);
+	}
 
 	std::cin.get();
 	return 0;
 }
+
 
 void displayMessage(const std::string& message, bool newline) {
 	std::cout <<
