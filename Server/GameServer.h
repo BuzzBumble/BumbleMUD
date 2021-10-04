@@ -2,6 +2,7 @@
 
 #include "TCPSocket.h"
 #include "Player.h"
+
 #include <memory>
 #include <vector>
 #include <string>
@@ -10,6 +11,7 @@ class GameServer {
 public:
 	static const unsigned short BUFSIZE; // 1024
 	static const unsigned short MAXPLAYERS;
+
 	GameServer() = default;
 	bool Init(const unsigned short& port);
 

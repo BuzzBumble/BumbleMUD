@@ -3,6 +3,7 @@
 #include "Net.h"
 #include "Character.h"
 #include "GameManager.h"
+#include "ServerMessage.h"
 #include "json.hpp"
 
 #include <string>
@@ -34,22 +35,22 @@ int main() {
 	net::TCPSocket sock;
 
 	if (!sock.Open()) {
+		std::cout << "Socket could not open" << std::endl;
 		return -1;
 	}
 
+	while (!sock.Connect(serverAddr)) {}
+	std::cout << "Connected to server" << std::endl;
+	sock.Receive(buf, net::Socket::MAX_PACKET_SIZE);
+	ServerMessage sMsg = ServerMessage(buf);
+	sMsg.init();
+	std::cout << "[RECEIVED] " << buf << std::endl;
+
+	std::cout << "Enter command: ";
 	gm.readInput();
-
-	if (!sock.Connect(serverAddr)) {
-		return -1;
-	}
-
 	std::string msg = gm.getLastInput();
 
 	sock.Send(msg.c_str(), msg.size() + 1);
-
-	int numBytes = -1;
-	sock.Receive(buf, 1024);
-	std::cout << "[RECEIVED] " << buf << std::endl;
 
 	std::cin.get();
 	return 0;
@@ -73,38 +74,3 @@ std::string receiveMessage() {
 	std::cin >> str;
 	return str;
 }
-/*
-	std::string input;
-	std::string introMessage = "Welcome to BumbleMUD\nWhat is your character's name? ";
-
-	displayMessage(introMessage, true);
-
-	input = receiveMessage();
-	std::unique_ptr<Player>& player = serverPlayers.back();
-
-
-
-	displayMessage("Hello " + player->getName() + ". Let's get started", true);
-
-	Room room(std::pair<int, int>(0, 0));
-	room.addEnemy(std::make_unique<Enemy>("Gobulin", 50));
-	room.addPlayer(player);
-	room.init();
-
-	displayMessage("You are in room " + std::to_string(room.getID()), true);
-
-	std::cout << "Type 'room'" << std::endl;
-	input = receiveMessage();
-
-	if (input == "room") {
-		std::cout << "Players: " << std::endl;
-		for (const auto& roomPlayer : room.getPlayers()) {
-			std::cout << roomPlayer->getName() << std::endl;
-		}
-
-		std::cout << "Enemies: " << std::endl;
-		for (const auto& roomEnemy : room.getEnemies()) {
-			std::cout << roomEnemy->getName() << std::endl;
-		}
-	}
-*/

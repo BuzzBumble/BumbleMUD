@@ -15,7 +15,7 @@ public:
 protected:
 	void AssignDobjID();
 	static unsigned long long DOBJIDCOUNTER;
-	unsigned long long dobjID = 0;
+	unsigned long long dobjID;
 
 	std::string name;
 	std::string description;

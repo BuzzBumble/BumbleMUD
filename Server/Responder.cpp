@@ -51,8 +51,7 @@ const std::string Responder::GetResponse() const {
 
 	switch (directive) {
 	case Directive::ConnectPlayer:
-		response = buildCP(dataObject);
-		return response.c_str();
+		return buildCP(dataObject);
 	default:
 		return "";
 	}

@@ -23,7 +23,6 @@ std::string GameManager::getLastInput() {
 int GameManager::readInput() {
 	lastInput = "";
 	std::getline(std::cin, lastInput);
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 	return lastInput.length();
 }
 

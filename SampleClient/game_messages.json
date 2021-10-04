@@ -4,7 +4,7 @@
 		"text": [
 			"Welcome to BumbleMUD."
 		],
-		"prompt": "Enter a server's IP address to join: ",
+		"prompt": "",
 		"newline":  false
 	}
 ]

@@ -7,7 +7,7 @@ namespace net {
 	class Socket {
 	public:
 
-		static constexpr int MAX_PACKET_SIZE = 256;
+		static constexpr int MAX_PACKET_SIZE = 1024;
 
 		virtual bool Open() = 0;
 

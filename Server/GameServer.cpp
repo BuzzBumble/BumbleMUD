@@ -90,7 +90,7 @@ bool GameServer::ConnectPlayer(const std::string& name, const std::string& descr
 
 	activePlayers.emplace_back(std::make_unique<Player>(name, description, clientAddr, sockfd));
 	Responder res(Responder::Directive::ConnectPlayer, *activePlayers.back().get());
-	Send(sockfd, res.GetResponse());
+	Send(sockfd, res.GetResponse().c_str());
 
 	return true;
 }
@@ -115,7 +115,7 @@ std::vector<std::string> GameServer::ParseMsg(std::string buffer) {
 	}
 
 	for (size_t i = 0; i < strVec.size(); i++) {
-		std::cout << strVec.at(i) << std::endl;
+	 std::cout << strVec.at(i) << std::endl;
 	}
 
 	return strVec;
